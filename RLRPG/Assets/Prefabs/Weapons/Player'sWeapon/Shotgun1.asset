@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3b6fc21570b3104cade620a00e778da, type: 3}
+  m_Name: Shotgun1
+  m_EditorClassIdentifier: 
+  sprite: {fileID: -7617256131967975525, guid: 86631518e02ec784a92146bf9d84fc48, type: 3}
+  weaponType: 1
+  autoShoot: 0
+  multiShot: 1
+  shotCount: 5
+  bulletCount: 1
+  coolDown: 0.5
+  hasLaserSight: 1
+  laserSightLenght: 3
+  rifleSpreading: 0
+  individualAngles: 0
+  showBulletAngles: 0
+  bulletAngles: []
+  angleBetweenBullets: 0
+  shotgunSpreading: 35
+  bullet: {fileID: 6469825398701474045, guid: 81761a4de8c71b340b591806efea9332, type: 3}

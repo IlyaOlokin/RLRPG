@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3b6fc21570b3104cade620a00e778da, type: 3}
+  m_Name: PlasmaGun1
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 2548970649608562601, guid: 86631518e02ec784a92146bf9d84fc48, type: 3}
+  weaponType: 2
+  autoShoot: 1
+  multiShot: 1
+  shotCount: 5
+  bulletCount: 1
+  coolDown: 1
+  hasLaserSight: 0
+  laserSightLenght: 5
+  rifleSpreading: 0
+  individualAngles: 1
+  showBulletAngles: 1
+  bulletAngles:
+  - 0
+  - 5
+  - -5
+  - 90
+  - -90
+  angleBetweenBullets: 25
+  shotgunSpreading: 0
+  bullet: {fileID: 1290941309927455116, guid: 5f945776fe7350645aff0890fc1327ad, type: 3}
