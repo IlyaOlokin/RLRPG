@@ -20,7 +20,7 @@ class Rifle : AbstractWeapon
     public override void Shoot(Weapon weapon)
     {
         var playerTransformRotation = weapon.SourceTransform.eulerAngles;
-        var bulletAngle = UnityEngine.Random.Range(-weapon.rifleSpreading, weapon.rifleSpreading);
+        var bulletAngle = Random.Range(-weapon.rifleSpreading, weapon.rifleSpreading);
         weapon.MakeAShot(Quaternion.Euler(0, 0,  bulletAngle + playerTransformRotation.z));
     }
 }

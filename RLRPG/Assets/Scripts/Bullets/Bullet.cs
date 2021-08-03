@@ -12,11 +12,14 @@ public class Bullet : MonoBehaviour
     public List<Action> deathActions = new List<Action>();
 
     private Rigidbody2D rb;
+    private SpriteRenderer sr;
 
     [NonSerialized] public bool readyToDie;
 
     public List<Action> startActions = new List<Action>();
     public List<Action> updateActions = new List<Action>();
+
+    [SerializeField] private GameObject collisionParticles;
 
     [SerializeField]public Vector2 velocityDir;
 
@@ -24,6 +27,7 @@ public class Bullet : MonoBehaviour
     {
         
         rb = GetComponent<Rigidbody2D>();
+        sr = GetComponent<SpriteRenderer>();
         OnCreate();
         readyToDie = true;
         if (collisionActions.Count != 0) readyToDie = false;
@@ -38,7 +42,6 @@ public class Bullet : MonoBehaviour
     private void OnDeaths()
     {
         foreach (var act in deathActions) act();
-
         Destroy(gameObject);
     }
 
@@ -68,7 +71,16 @@ public class Bullet : MonoBehaviour
         {
             other.gameObject.GetComponent<Player>().TakeDamage(Dmg);
         }
-        
+
+        SpawnCollisionParticles();
         if (readyToDie) OnDeaths();
+    }
+
+    private void SpawnCollisionParticles()
+    {
+        var particles = Instantiate(collisionParticles);
+        particles.transform.position = transform.position;
+        var mainModule = particles.GetComponent<ParticleSystem>().main;
+        mainModule.startColor = sr.color;
     }
 }

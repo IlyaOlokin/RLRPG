@@ -219,6 +219,7 @@ MonoBehaviour:
   Dmg: 10
   Speed: 10
   Size: 1
+  collisionParticles: {fileID: 3830042732942272030, guid: 1b59c4b2aa76d7a4380c2ce97dca7e7a, type: 3}
   velocityDir: {x: 0, y: 0}
 --- !u!114 &8741596404419898450
 MonoBehaviour:

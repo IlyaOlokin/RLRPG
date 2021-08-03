@@ -13,7 +13,18 @@ namespace Enemies
             
             weapon1 = Instantiate(weapon);
             weapon1.SourceTransform = transform;
-            
+            switch ( weapon1.weaponType)
+            {
+                case Weapon.WeaponType.Rifle:
+                    weapon1.weapon = new Rifle();
+                    break;
+                case Weapon.WeaponType.Shotgun:
+                    weapon1.weapon = new Shotgun();
+                    break;
+                case Weapon.WeaponType.PlasmaGun:
+                    weapon1.weapon = new PlasmaGun();
+                    break;
+            }
         }
 
         protected override void IdleBehaviour()
