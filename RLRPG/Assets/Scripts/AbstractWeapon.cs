@@ -1,86 +1,152 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class AbstractWeapon
 {
-    public abstract float DmgMultiplier { get; }
-    public abstract float SizeMultiplier { get; }
-    public abstract float SpeedMultiplier { get; }
-    
-    public abstract void Shoot(Weapon weapon);
-}
+    protected abstract float DmgMultiplier { get; }
+    protected abstract float SizeMultiplier { get; }
+    protected abstract float SpeedMultiplier { get; }
 
-class Rifle : AbstractWeapon
-{
-    public override float DmgMultiplier => PlayerStats.RifleDmgMultiplier;
-    public override float SizeMultiplier => PlayerStats.RifleBulletSizeMultiplier;
-    public override float SpeedMultiplier => PlayerStats.RifleBulletSpeedMultiplier;
-    
-    public override void Shoot(Weapon weapon)
+    public abstract void Shoot(Transform sourceTransform,
+        float spreading,
+        GameObject bulletPref,
+        int bulletCount,
+        int shotCount,
+        bool individualAngles,
+        List<float> bulletAngles,
+        float angleBetweenBullets);
+
+    internal void MakeAShot(Vector3 startPosition, Quaternion shotQuaternion, GameObject bulletPref, int bulletCount)
     {
-        var playerTransformRotation = weapon.SourceTransform.eulerAngles;
-        var bulletAngle = Random.Range(-weapon.rifleSpreading, weapon.rifleSpreading);
-        weapon.MakeAShot(Quaternion.Euler(0, 0,  bulletAngle + playerTransformRotation.z));
+        var startPos = startPosition;
+        for (var i = 0; i < bulletCount; i++) FireABullet(shotQuaternion, i, startPos, bulletPref, bulletCount);
+    }
+
+    private void FireABullet(Quaternion bulletQuaternion, int i, Vector3 startPos, GameObject bulletPref,
+        int bulletCount)
+    {
+        var bullet = Object.Instantiate(bulletPref);
+        bullet.transform.rotation = bulletQuaternion;
+
+        var posOffset = bullet.transform.right * ((i + 1) / 2 * (i % 2 == 0 ? 1 : -1));
+        const float gapBetweenBullets = 0.4f;
+
+        // ...3 1 0 2 4...
+        //  ...3 1 0 2...
+        bullet.transform.position = startPos + posOffset * gapBetweenBullets + bullet.transform.up * 0.25f;
+
+        if (bulletCount % 2 == 0) bullet.transform.position += bullet.transform.right * (gapBetweenBullets / 2f);
+
+        var bullet1 = bullet.gameObject.GetComponent<Bullet>();
+
+        bullet1.Dmg *= DmgMultiplier;
+        bullet1.Size *= SizeMultiplier;
+        bullet1.Speed *= SpeedMultiplier;
     }
 }
 
-class Shotgun : AbstractWeapon
+internal class Rifle : AbstractWeapon
 {
-    public override float DmgMultiplier => PlayerStats.ShotgunDmgMultiplier;
-    public override float SizeMultiplier => PlayerStats.ShotgunBulletSizeMultiplier;
-    public override float SpeedMultiplier => PlayerStats.ShotgunBulletSpeedMultiplier;
-    
-    public override void Shoot(Weapon weapon)
-    {
-        for (int i = 0; i < weapon.shotCount; i++)
-        {
-            var playerTransformRotation = weapon.SourceTransform.eulerAngles;
-            var bulletAngle = UnityEngine.Random.Range(-weapon.shotgunSpreading / 2f, weapon.shotgunSpreading / 2f);
+    protected override float DmgMultiplier => PlayerStats.RifleDmgMultiplier;
+    protected override float SizeMultiplier => PlayerStats.RifleBulletSizeMultiplier;
+    protected override float SpeedMultiplier => PlayerStats.RifleBulletSpeedMultiplier;
 
-            weapon.MakeAShot(Quaternion.Euler(0, 0,  bulletAngle + playerTransformRotation.z));
+    public override void Shoot(Transform sourceTransform,
+        float spreading,
+        GameObject bulletPref,
+        int bulletCount,
+        int shotCount,
+        bool individualAngles,
+        List<float> bulletAngles, 
+        float angleBetweenBullets)
+    {
+        var playerTransformRotation = sourceTransform.eulerAngles;
+        var bulletAngle = Random.Range(-spreading, spreading);
+        MakeAShot(sourceTransform.position,
+            Quaternion.Euler(0, 0, bulletAngle + playerTransformRotation.z),
+            bulletPref,
+            bulletCount);
+    }
+}
+
+internal class Shotgun : AbstractWeapon
+{
+    protected override float DmgMultiplier => PlayerStats.ShotgunDmgMultiplier;
+    protected override float SizeMultiplier => PlayerStats.ShotgunBulletSizeMultiplier;
+    protected override float SpeedMultiplier => PlayerStats.ShotgunBulletSpeedMultiplier;
+
+    public override void Shoot(Transform sourceTransform,
+        float spreading,
+        GameObject bulletPref,
+        int bulletCount,
+        int shotCount,
+        bool individualAngles,
+        List<float> bulletAngles,
+        float angleBetweenBullets)
+    {
+        for (var i = 0; i < shotCount; i++)
+        {
+            var playerTransformRotation = sourceTransform.eulerAngles;
+            var bulletAngle = Random.Range(-spreading / 2f, spreading / 2f);
+
+            MakeAShot(sourceTransform.position,
+                Quaternion.Euler(0, 0, bulletAngle + playerTransformRotation.z),
+                bulletPref,
+                bulletCount);
         }
     }
 }
 
-class PlasmaGun : AbstractWeapon
+internal class PlasmaGun : AbstractWeapon
 {
-    public override float DmgMultiplier => PlayerStats.PlasmaGunDmgMultiplier;
-    public override float SizeMultiplier => PlayerStats.PlasmaGunBulletSizeMultiplier;
-    public override float SpeedMultiplier => PlayerStats.PlasmaGunBulletSpeedMultiplier;
-    
-    public override void Shoot(Weapon weapon)
+    protected override float DmgMultiplier => PlayerStats.PlasmaGunDmgMultiplier;
+    protected override float SizeMultiplier => PlayerStats.PlasmaGunBulletSizeMultiplier;
+    protected override float SpeedMultiplier => PlayerStats.PlasmaGunBulletSpeedMultiplier;
+
+    public override void Shoot(Transform sourceTransform,
+        float spreading,
+        GameObject bulletPref,
+        int bulletCount,
+        int shotCount,
+        bool individualAngles,
+        List<float> bulletAngles,
+        float angleBetweenBullets)
     {
-        if (weapon.shotCount == 1)
+        if (shotCount == 1)
         {
-            weapon.MakeAShot(weapon.SourceTransform.rotation);
+            MakeAShot(sourceTransform.position,
+                sourceTransform.rotation,
+                bulletPref,
+                bulletCount);
 
             return;
         }
-        for (int i = 1; i <= weapon.shotCount; i++)
+
+        for (var i = 1; i <= shotCount; i++)
         {
-            var playerTransformRotation = weapon.SourceTransform.eulerAngles;
+            var playerTransformRotation = sourceTransform.eulerAngles;
             var bulletAngle = 0f;
 
-            if (weapon.individualAngles)
+            if (individualAngles)
             {
-                bulletAngle = weapon.bulletAngles[i - 1];
-                weapon.MakeAShot(Quaternion.Euler(0, 0, bulletAngle + playerTransformRotation.z));
-
+                bulletAngle = bulletAngles[i - 1];
+                MakeAShot(sourceTransform.position,
+                    Quaternion.Euler(0, 0, bulletAngle + playerTransformRotation.z),
+                    bulletPref,
+                    bulletCount);
             }
             else
             {
-                if (weapon.shotCount % 2 == 1)
-                {
-                    bulletAngle = i / 2 * weapon.angleBetweenBullets * (i % 2 == 0 ? 1 : -1f);
-                }
+                if (shotCount % 2 == 1)
+                    bulletAngle = i / 2 * angleBetweenBullets * (i % 2 == 0 ? 1 : -1f);
                 else
-                {
-                    bulletAngle = i / 2 * weapon.angleBetweenBullets * (i % 2 == 0 ? 1 : -1f) -
-                                  weapon.angleBetweenBullets / 2f;
-                }
+                    bulletAngle = i / 2 * angleBetweenBullets * (i % 2 == 0 ? 1 : -1f) -
+                                  angleBetweenBullets / 2f;
 
-                weapon.MakeAShot(Quaternion.Euler(0, 0, bulletAngle + playerTransformRotation.z));
+                MakeAShot(sourceTransform.position,
+                    Quaternion.Euler(0, 0, bulletAngle + playerTransformRotation.z),
+                    bulletPref,
+                    bulletCount);
             }
         }
     }

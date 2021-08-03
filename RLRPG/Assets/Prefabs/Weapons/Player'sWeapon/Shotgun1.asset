@@ -15,16 +15,15 @@ MonoBehaviour:
   sprite: {fileID: -7617256131967975525, guid: 86631518e02ec784a92146bf9d84fc48, type: 3}
   weaponType: 1
   autoShoot: 0
-  multiShot: 1
+  multiShot: 2
   shotCount: 5
   bulletCount: 1
   coolDown: 0.5
   hasLaserSight: 1
   laserSightLenght: 3
-  rifleSpreading: 0
+  spreading: 20
   individualAngles: 0
   showBulletAngles: 0
   bulletAngles: []
   angleBetweenBullets: 0
-  shotgunSpreading: 35
-  bullet: {fileID: 6469825398701474045, guid: 81761a4de8c71b340b591806efea9332, type: 3}
+  bullet: {fileID: 5423809592963834283, guid: 7633b9d4223d59e4d91fa83bf8ebc34f, type: 3}

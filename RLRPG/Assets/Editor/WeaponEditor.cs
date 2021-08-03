@@ -26,7 +26,7 @@ public class WeaponEditor : Editor
                 weapon.multiShot = EditorGUILayout.IntField("Shot Count", weapon.multiShot);
                 weapon.bulletCount = EditorGUILayout.IntField("Bullet Count", weapon.bulletCount);
                 weapon.coolDown = EditorGUILayout.FloatField("Cool Down", weapon.coolDown);
-                weapon.rifleSpreading = EditorGUILayout.FloatField("Rifle Spreading", weapon.rifleSpreading);
+                weapon.spreading = EditorGUILayout.FloatField("Spreading", weapon.spreading);
                 break;
             
             case Weapon.WeaponType.Shotgun:
@@ -36,7 +36,7 @@ public class WeaponEditor : Editor
                 weapon.shotCount = EditorGUILayout.IntField("Shot Count", weapon.shotCount);
                 weapon.bulletCount = EditorGUILayout.IntField("Bullet Count", weapon.bulletCount);
                 weapon.coolDown = EditorGUILayout.FloatField("Cool Down", weapon.coolDown);
-                weapon.shotgunSpreading = EditorGUILayout.FloatField("Shotgun Spreading", weapon.shotgunSpreading);
+                weapon.spreading = EditorGUILayout.FloatField("Spreading", weapon.spreading);
                 break;
             
             case Weapon.WeaponType.PlasmaGun:

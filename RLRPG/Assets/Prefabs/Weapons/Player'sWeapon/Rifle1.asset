@@ -21,10 +21,9 @@ MonoBehaviour:
   coolDown: 0.1
   hasLaserSight: 1
   laserSightLenght: 5
-  rifleSpreading: 1
+  spreading: 2
   individualAngles: 0
   showBulletAngles: 0
   bulletAngles: []
   angleBetweenBullets: 5
-  shotgunSpreading: 0
-  bullet: {fileID: 8819050908936693212, guid: 3a82ae6ed0d7d884281308938623f25b, type: 3}
+  bullet: {fileID: 5423809592963834283, guid: 7633b9d4223d59e4d91fa83bf8ebc34f, type: 3}
