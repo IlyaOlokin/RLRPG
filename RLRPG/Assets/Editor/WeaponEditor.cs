@@ -77,7 +77,6 @@ public class WeaponEditor : Editor
                 break;
         }
         EditorGUILayout.Space();
-
         weapon.bullet = (GameObject)EditorGUILayout.ObjectField("Bullet",weapon.bullet, typeof(GameObject));
         EditorUtility.SetDirty(weapon);
     }

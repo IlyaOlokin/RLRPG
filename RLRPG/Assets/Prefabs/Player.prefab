@@ -606,6 +606,11 @@ MonoBehaviour:
   hpMax: 100
   speed: 5
   invincibleTime: 0.5
+  dashLenght: 4
+  dashSpeed: 20
+  rayLayerMask:
+    serializedVersion: 2
+    m_Bits: 768
   weaponManager: {fileID: 7759727488509855702}
 --- !u!58 &7759727487781267325
 CircleCollider2D:
