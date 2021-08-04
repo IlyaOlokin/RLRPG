@@ -56,7 +56,7 @@ public class Player : MonoBehaviour
     private void Dash()
     {
         var moveDir = new Vector3(moveX, moveY);
-        var moveDir = new Vector3(moveX, moveY);
+        
         if (moveDir == Vector3.zero) moveDir = lookDirection;
         
         RaycastHit2D hit = Physics2D.Raycast(transform.position, moveDir , dashLenght, rayLayerMask);
@@ -71,12 +71,12 @@ public class Player : MonoBehaviour
         isDashing = true;
         collider.enabled = false;
         moveAvailable = false;
-        StartCoroutine(ReturnMoveAbility(Vector3.Distance(endPos, transform.position)));
+        StartCoroutine(ReturnMoveAbility(Vector3.Distance(endPos, transform.position) / dashSpeed));
     }
 
     private void MakeDash(Vector3 endPos)
     {
-        transform.position = Vector3.MoveTowards(transform.position, endPos / dashSpeed, dashSpeed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, endPos, dashSpeed * Time.deltaTime);
     }
 
     IEnumerator ReturnMoveAbility(float delay)
