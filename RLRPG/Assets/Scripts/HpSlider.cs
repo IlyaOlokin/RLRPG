@@ -36,7 +36,6 @@ public class HpSlider : MonoBehaviour
     {
         //transform.eulerAngles = Vector3.zero;
         transform.position = parent.position + new Vector3(0, 0.6f, 0);
-        
     }
 
     public void TakeDmg(float dmg)

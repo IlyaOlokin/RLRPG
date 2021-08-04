@@ -99,8 +99,9 @@ public class Player : MonoBehaviour
         rb.velocity = new Vector2(moveX * speed, moveY * speed);
     }
 
-    private void OnDeath()
+    public void OnDeath()
     {
+        Destroy(sliderHp.gameObject);
         Destroy(gameObject);
     }
 

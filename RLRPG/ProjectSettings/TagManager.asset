@@ -10,6 +10,8 @@ TagManager:
   - Enemy
   - EnemyBullet
   - EnemyShield
+  - RoomManager
+  - CameraPoint
   layers:
   - Default
   - TransparentFX

@@ -13,7 +13,7 @@ public class CollectableWeapon : MonoBehaviour
     {
         GetComponent<SpriteRenderer>().sprite = weapon.sprite;
         player = GameObject.FindGameObjectWithTag("Player").transform;
-
+    
         weaponManager = player.GetComponent<Player>().weaponManager;
     }
 
