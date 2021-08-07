@@ -5,32 +5,14 @@ using UnityEngine;
 public class Room : MonoBehaviour
 {
     public List<GameObject> doors;
+    public bool visited;
 
-    public List<int> GetFreeDoorsIndexes()
+    public GameObject obstacle;
+
+    public void SetObstacle(GameObject o, Transform parent)
     {
-        var freeDoorsIndexes = new List<int>();
-        for (int i = 0; i < doors.Count; i++)
-        {
-            if (doors[i].GetComponent<Door>().doorNextDoor == null)
-            {
-                freeDoorsIndexes.Add(i);
-            }
-        }
-
-        return freeDoorsIndexes;
-    } 
-    
-    public List<GameObject> GetFreeDoors()
-    {
-        var freeDoorsIndexes = new List<GameObject>();
-        for (int i = 0; i < doors.Count; i++)
-        {
-            if (doors[i].GetComponent<Door>().doorNextDoor == null)
-            {
-                freeDoorsIndexes.Add(doors[i]);
-            }
-        }
-
-        return freeDoorsIndexes;
-    } 
+        obstacle = o;
+        visited = true;
+        Instantiate(obstacle, transform.position, Quaternion.identity, parent);
+    }
 }

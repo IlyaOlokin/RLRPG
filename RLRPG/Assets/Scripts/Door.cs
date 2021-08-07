@@ -1,15 +1,11 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.Mathematics;
 using UnityEngine;
 
 public class Door : MonoBehaviour
 {
-    [NonSerialized] public bool isActive = true;
+    [SerializeField] private bool isActive = true;
     private RoomManager rm;
-    [SerializeField] private Transform spawnPos;
-    public GameObject doorNextDoor;
+    
 
     // 0 - Left
     // 1 - Up
@@ -26,7 +22,7 @@ public class Door : MonoBehaviour
     {
         if (isActive && other.gameObject.CompareTag("Player"))
         {
-            rm.ChangeCurrentRoom(side);
+            rm.MoveToAnotherRoom(side);
         }
     } 
     

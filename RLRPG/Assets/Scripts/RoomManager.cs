@@ -2,18 +2,27 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using Random = UnityEngine.Random;
 
 public class RoomManager : MonoBehaviour
 {
+    // For dungeon generation
     [SerializeField] private GameObject startRoom;
     [SerializeField] private GameObject defaultRoom;
-    private Tuple<int, int> currentRoom;
+    
     private GameObject[,] rooms;
     [SerializeField] private int roomWidth;
     [SerializeField] private int roomHeight;
     [SerializeField] private int roomCount;
 
+    // For room filling
+    [SerializeField] private FillRoomUI fillRoomUI;
+    [SerializeField] private List<GameObject> obstacles;
+    private int obstaclesForOneRoom;
+    [SerializeField] private NavMeshSurface2d navMeshSurface2d;
+    
+    private Tuple<int, int> currentRoom;
     private GameObject player;
     private new GameObject camera;
 
@@ -100,8 +109,8 @@ public class RoomManager : MonoBehaviour
         var middleRow = cells.GetLength(0) / 2; 
         var middleColumn = cells.GetLength(1) / 2;
         currentRoom = new Tuple<int, int>(middleRow, middleColumn);
-        rooms[middleRow, middleColumn] = Instantiate(startRoom, Vector3.zero, Quaternion.identity);
-        rooms[middleRow, middleColumn].transform.SetParent(transform);
+        rooms[middleRow, middleColumn] = Instantiate(startRoom, Vector3.zero, Quaternion.identity, navMeshSurface2d.gameObject.transform);
+        rooms[middleRow, middleColumn].GetComponent<Room>().visited = true;
         cells[middleRow, middleColumn] = false;
         
         for (int i = 0; i < cells.GetLength(0); i++)
@@ -113,11 +122,12 @@ public class RoomManager : MonoBehaviour
                     rooms[i,j] = Instantiate(defaultRoom,
                         new Vector3(roomWidth * (i - middleRow),
                             roomHeight * (j - middleColumn)),
-                        Quaternion.identity);
-                    rooms[i,j].transform.SetParent(transform);
+                        Quaternion.identity, transform);
                 }
             }
         }
+        
+        navMeshSurface2d.BuildNavMesh();
     }
 
     private void DisableImpasseDoors()
@@ -155,7 +165,7 @@ public class RoomManager : MonoBehaviour
         }
     }
     
-    public void ChangeCurrentRoom(int enteredDoorSide)
+    public void MoveToAnotherRoom(int enteredDoorSide)
     {
         var currRoom = rooms[currentRoom.Item1, currentRoom.Item2];
         var spawnPos = currRoom.transform.position;
@@ -184,9 +194,33 @@ public class RoomManager : MonoBehaviour
                 break;
         }
 
-        camera.transform.position = spawnPos;
         currRoom = rooms[currentRoom.Item1, currentRoom.Item2];
+        var room = currRoom.GetComponent<Room>();
+        camera.transform.position = spawnPos;
         
-        currRoom.GetComponent<Room>().doors[spawnSide].GetComponent<Door>().SpawnPlayer(player);
+        
+        room.doors[spawnSide].GetComponent<Door>().SpawnPlayer(player);
+        
+        if (!room.visited)
+        {
+            player.SetActive(false);
+            var rand1 = Random.Range(0, obstacles.Count);
+            var rand2 = Random.Range(0, obstacles.Count);
+            
+            fillRoomUI.gameObject.SetActive(true);
+            fillRoomUI.SetNewObstacles(obstacles[rand1], obstacles[rand2]);
+        }
+        else
+        {
+            navMeshSurface2d.BuildNavMesh();
+        }
+    }
+
+    public void SetRoomObstacle(GameObject obstacle)
+    {
+        rooms[currentRoom.Item1, currentRoom.Item2].GetComponent<Room>()
+            .SetObstacle(obstacle, navMeshSurface2d.gameObject.transform);
+        navMeshSurface2d.BuildNavMesh();
+        player.SetActive(true);
     }
 }
