@@ -9,7 +9,8 @@ public class Door : MonoBehaviour
     [NonSerialized] public bool isActive = true;
     private RoomManager rm;
     [SerializeField] private Transform spawnPos;
-    
+    public GameObject doorNextDoor;
+
     // 0 - Left
     // 1 - Up
     // 2 - Right
@@ -25,7 +26,15 @@ public class Door : MonoBehaviour
     {
         if (isActive && other.gameObject.CompareTag("Player"))
         {
-            rm.SpawnNewRoom(side);
+            rm.ChangeCurrentRoom(side);
+        }
+    } 
+    
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            isActive = true;
         }
     }
 
