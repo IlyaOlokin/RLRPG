@@ -12119,7 +12119,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1.5}
+  m_Size: {x: 1, y: 1.1}
   m_EdgeRadius: 0
 --- !u!114 &5167637019682152114
 MonoBehaviour:
@@ -12133,7 +12133,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b548dc7fe07cbe49a96ad8d7c0251ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnPos: {fileID: 0}
+  isActive: 1
   side: 3
 --- !u!1 &3604236111220401531
 GameObject:
@@ -12188,6 +12188,8 @@ MonoBehaviour:
   - {fileID: 4514377276170985496}
   - {fileID: 4028684091283547929}
   - {fileID: 3101048429960968781}
+  visited: 0
+  obstacle: {fileID: 0}
 --- !u!1 &4028684091283547929
 GameObject:
   m_ObjectHideFlags: 0
@@ -12297,7 +12299,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1.5}
+  m_Size: {x: 1, y: 1.1}
   m_EdgeRadius: 0
 --- !u!114 &2283238796116325969
 MonoBehaviour:
@@ -12311,7 +12313,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b548dc7fe07cbe49a96ad8d7c0251ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnPos: {fileID: 0}
+  isActive: 1
   side: 2
 --- !u!1 &4514377276170985496
 GameObject:
@@ -12422,7 +12424,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1.5}
+  m_Size: {x: 1, y: 1.1}
   m_EdgeRadius: 0
 --- !u!114 &7320524699451847758
 MonoBehaviour:
@@ -12436,7 +12438,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b548dc7fe07cbe49a96ad8d7c0251ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnPos: {fileID: 0}
+  isActive: 1
   side: 1
 --- !u!1 &8253857752152031051
 GameObject:
@@ -12547,7 +12549,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1.5}
+  m_Size: {x: 1, y: 1.1}
   m_EdgeRadius: 0
 --- !u!114 &553145856334771673
 MonoBehaviour:
@@ -12561,5 +12563,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b548dc7fe07cbe49a96ad8d7c0251ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnPos: {fileID: 0}
+  isActive: 1
   side: 0

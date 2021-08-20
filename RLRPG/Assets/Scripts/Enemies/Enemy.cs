@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
@@ -45,6 +46,7 @@ public class Enemy : MonoBehaviour
     }
     void Update()
     {
+        if (player == null) return;
         distToPlayer = Vector2.Distance(player.transform.position, transform.position);
         if (distToPlayer > agrDistance && aggred)
         {
@@ -59,6 +61,16 @@ public class Enemy : MonoBehaviour
         {
             IdleBehaviour();
         }
+    }
+
+    private void OnDisable()
+    {
+        hpSlider.gameObject.SetActive(false);
+    }
+
+    private void OnEnable()
+    {
+        hpSlider.gameObject.SetActive(true);
     }
 
     protected virtual void AggredBehaviour()

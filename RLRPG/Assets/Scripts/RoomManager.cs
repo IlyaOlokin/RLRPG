@@ -208,11 +208,11 @@ public class RoomManager : MonoBehaviour
             var rand2 = Random.Range(0, obstacles.Count);
             
             fillRoomUI.gameObject.SetActive(true);
-            fillRoomUI.SetNewObstacles(obstacles[rand1], obstacles[rand2]);
+            fillRoomUI.SetNewRoom(obstacles[rand1], obstacles[rand2], currRoom.transform.position);
         }
         else
         {
-            navMeshSurface2d.BuildNavMesh();
+            
         }
     }
 
@@ -220,6 +220,16 @@ public class RoomManager : MonoBehaviour
     {
         rooms[currentRoom.Item1, currentRoom.Item2].GetComponent<Room>()
             .SetObstacle(obstacle, navMeshSurface2d.gameObject.transform);
+    }
+
+    public void SetEnemyGroup(GameObject enemyGroup)
+    {
+        rooms[currentRoom.Item1, currentRoom.Item2].GetComponent<Room>().SetEnemyGroup(enemyGroup);
+        OnRoomSettingEnd();
+    }
+
+    private void OnRoomSettingEnd()
+    {
         navMeshSurface2d.BuildNavMesh();
         player.SetActive(true);
     }

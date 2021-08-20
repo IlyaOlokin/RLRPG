@@ -22,6 +22,7 @@ public class Player : MonoBehaviour
     private float moveX;
     private float moveY;
     private Rigidbody2D rb;
+    [SerializeField] private ParticleSystem dashParticles;
     private new CircleCollider2D collider;
     private Vector2 lookDirection;
 
@@ -71,6 +72,8 @@ public class Player : MonoBehaviour
         isDashing = true;
         collider.enabled = false;
         moveAvailable = false;
+        var e = dashParticles.emission;
+        e.rateOverTime = 35;
         StartCoroutine(ReturnMoveAbility(Vector3.Distance(endPos, transform.position) / dashSpeed));
     }
 
@@ -82,6 +85,8 @@ public class Player : MonoBehaviour
     IEnumerator ReturnMoveAbility(float delay)
     {
         yield return new WaitForSeconds(delay);
+        var e = dashParticles.emission;
+        e.rateOverTime = 0;
         moveAvailable = true;
         collider.enabled = true;
         isDashing = false;
@@ -116,6 +121,16 @@ public class Player : MonoBehaviour
         }
         
         if (hp <= 0) OnDeath();
+    }
+
+    private void OnEnable()
+    {
+        sliderHp.gameObject.SetActive(true);
+    }
+
+    private void OnDisable()
+    {
+        sliderHp.gameObject.SetActive(false);
     }
 
     private IEnumerator InvisibleDelay(float invincibleTime)

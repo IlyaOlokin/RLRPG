@@ -36,7 +36,6 @@ public class Door : MonoBehaviour
 
     public void SpawnPlayer(GameObject player)
     {
-        isActive = false;
         player.transform.position = transform.position + transform.up;
     }
 }

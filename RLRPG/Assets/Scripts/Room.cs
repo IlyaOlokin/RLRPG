@@ -9,10 +9,15 @@ public class Room : MonoBehaviour
 
     public GameObject obstacle;
 
-    public void SetObstacle(GameObject o, Transform parent)
+    public void SetObstacle(GameObject obstacle, Transform parent)
     {
-        obstacle = o;
+        this.obstacle = obstacle;
         visited = true;
-        Instantiate(obstacle, transform.position, Quaternion.identity, parent);
+        Instantiate(this.obstacle, transform.position, Quaternion.identity, parent);
+    }
+
+    public void SetEnemyGroup(GameObject enemyGroup)
+    {
+        enemyGroup.SetActive(true);
     }
 }
